@@ -1,0 +1,93 @@
+RECINFO_28-03-2018
+
+d1 = "um navegador explorou o oceano"
+d2 = "mozilla firefox é o melhor navegador"
+d3 = "internet explorer versus firefox"
+
+q = (navegador AND NOT oceano) OR internet OR firefox
+
+navegador: d1, d2
+oceano: d1
+internet: d3
+firefox: d2, d3
+
+NOT oceano: d2, d3
+navegador AND NOT oceano: (d1, d2) ^ (d2, d3) = d3
+(navegador AND NOT oceano) OR internet = d3 v d3 = d3
+(navegador AND NOT oceano) OR internet OR firefox = d3 v (d2, d3) = (d2, d3)
+
+R: d2, d3
+
+------------------------------------------------------------------------------------------------
+
+1. xadrez.txt = "O peão e o cavalo são peças de xadrez. O cavalo é o melhor do jogo."
+2. jogo.txt = "A jogada envolveu a torre, o peão e o rei."
+3. rodeio.txt = "O peão laçou o boi"
+4. fazenda.txt = "Cavalo de rodeio!"
+5. policia.txt = "Policiais o jogaram no xadrez.” 
+
+Retirando StopWords
+1. xadrez.txt = 	peão , cavalo , peças , xadrez , cavalo , melhor , jogo
+2. jogo.txt = 		jogada , envolveu , torre , peão , rei
+3. rodeio.txt = 	peão , laçou , boi
+4. fazenda.txt = 	cavalo , rodeio
+5. policia.txt = 	policiais , jogaram , xadrez
+
+Stemming
+1. 		peã , caval , pec , xadrez , caval , melhor , jog
+2.		jog , envolv , torr , peã , rei
+3.		peã , lac , boi
+4.		caval , rodei
+5. 		polic , jog , xadrez
+
+Matriz de Incidências
+			1	2	3	4	5
+-------------------------------
+peã 		1	1	1	0	0
+caval 		1	0	0	1	0
+pec 		1	0	0	0	0
+xadrez		1	0	0	0	1
+melhor		1	0	0	0	0
+jog 		1	1	0	0	1
+envolv 		0	1	0	0	0
+torr 		0	1	0	0	0
+rei 		0	1	0	0	0
+lac 		0	0	1	0	0
+boi 		0	0	1	0	0
+rodei 		0	0	0	1	0
+polic 		0	0	0	0	1
+
+
+
+peã 		1 , 2 , 3
+caval 		1 , 4
+pec 		1
+xadrez		1 , 5
+melhor		1
+jog 		1 , 5 
+envolv 		2
+torr 		2
+rei 		2
+lac 		3
+boi 		3
+rodei 		4
+polic 		5
+
+
+2.
+(cavalo OR boi) AND NOT peão
+(caval v boi) ^ !peã
+(10010 v 00100) ^ !11100
+10110 ^ 00011
+00010 = 4
+-----------------------------
+(caval v boi) ^ !peã
+((1,4) v (3)) ^ (4,5)
+(1,3,4) ^ (4,5) = 4
+
+
+3.
+(peão OR cavalo OR torre) AND (jogo OR xadrez)
+(peã v caval v torr) ^ (jog v xadrez)
+((1,2,3) v (1,4) v (1)) ^ ((1,2,5) v (1,5))
+((1) v (1,4) v (1,2,3)) ^ ((1,2,5) v (1,5))
